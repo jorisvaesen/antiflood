@@ -1,0 +1,33 @@
+{
+  "name": "jorisvaesen/cakephp-antiflood",
+  "description": "CakePHP plugin to secure login forms from brute force attacks",
+  "type": "cakephp-plugin",
+  "keywords": ["cakephp", "antiflood", "brute force attack", "orm"],
+  "homepage": "https://github.com/jorisvaesen/cakephp-keyvalue-pairs",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Joris Vaesen"
+    }
+  ],
+  "require": {
+    "cakephp/orm": ">=3.4",
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "cakephp/cakephp": "~3.0",
+    "phpunit/phpunit": "4.1.*",
+    "cakephp/cakephp-codesniffer": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "JorisVaesen\\Antiflood\\": "src",
+      "JorisVaesen\\Antiflood\\Test\\Fixture\\": "tests\\Fixture"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "JorisVaesen\\Antiflood\\Test\\": "tests"
+    }
+  }
+}

@@ -1,1 +1,1 @@
-# antiflood
+# cakephp-antiflood
