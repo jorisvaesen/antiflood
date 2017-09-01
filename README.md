@@ -1,7 +1,7 @@
 # cakephp-antiflood
 ## Installation
 ```
-composer require jorisvaesen/cakephp-antiflood
+composer require jorisvaesen/cakephp-antiflood:"dev-master"
 
-bin/cake plugin load JorisVaesen/Antiflood 
+bin/cake plugin load --bootstrap JorisVaesen/Antiflood 
 ```
