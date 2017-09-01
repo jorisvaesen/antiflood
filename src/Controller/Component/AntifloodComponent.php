@@ -1,5 +1,5 @@
 <?php
-namespace Antiflood\Controller\Component;
+namespace JorisVaesen\Antiflood\Controller\Component;
 
 use Cake\Cache\Cache;
 use Cake\Controller\Component;
