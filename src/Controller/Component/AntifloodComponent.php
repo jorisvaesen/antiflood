@@ -3,6 +3,7 @@ namespace JorisVaesen\Antiflood\Controller\Component;
 
 use Cake\Cache\Cache;
 use Cake\Controller\Component;
+use Cake\Utility\Security;
 
 /**
  * Antiflood component
@@ -19,11 +20,12 @@ class AntifloodComponent extends Component
         'ip' => true,
         'cacheKey' => 'antiflood',
         'maxAttempts' => 3,
+        'salt' => true,
     ];
 
     public function increment($identifier = null)
     {
-        $identifier = $this->_identifier($identifier, $this->getConfig('ip'));
+        $identifier = $this->_identifier($identifier);
 
         if (!Cache::read($identifier, $this->getConfig('cacheKey'))) {
             Cache::write($identifier, 0, $this->getConfig('cacheKey'));
@@ -34,7 +36,7 @@ class AntifloodComponent extends Component
 
     public function check($identifier = null)
     {
-        $identifier = $this->_identifier($identifier, $this->getConfig('ip'));
+        $identifier = $this->_identifier($identifier);
         $counter = Cache::read($identifier, $this->getConfig('cacheKey'));
 
         if (!$counter) {
@@ -44,12 +46,20 @@ class AntifloodComponent extends Component
         return $counter < $this->getConfig('maxAttempts');
     }
 
-    private function _identifier($identifier = null, $ip = true)
+    private function _identifier($identifier = null)
     {
-        if ($ip) {
-            $identifier .= '__' . $this->_registry->getController()->request->clientIp();
+        $identifier = md5($identifier);
+
+        if ($this->getConfig('ip')) {
+            $identifier .= '_' . md5($this->_registry->getController()->request->clientIp());
         }
 
-        return md5($identifier);
+        if ($this->getConfig('salt') === true) {
+            $identifier .= '_' . md5(Security::salt());
+        } else if (is_string($salt)) {
+            $identifier .= '_' . md5($this->getConfig('salt'));
+        }
+
+        return $identifier;
     }
 }
