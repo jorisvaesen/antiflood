@@ -21,38 +21,27 @@ class AntifloodComponent extends Component
         'maxAttempts' => 3,
     ];
 
-    public function increment($identifier = null, $options = [])
+    public function increment($identifier = null)
     {
-        $options += [
-            'ip' => true,
-            'cacheKey' => 'counter'
-        ];
-
-        $identifier = $this->_identifier($identifier, $options['ip']);
+        $identifier = $this->_identifier($identifier, $this->getConfig('ip'));
 
         if (!Cache::read($identifier, $options['cacheKey'])) {
-            Cache::write($identifier, 0, $options['cacheKey']);
+            Cache::write($identifier, 0, $this->getConfig('cacheKey'));
         }
 
-        Cache::increment($identifier, 1, $options['cacheKey']);
+        Cache::increment($identifier, 1, $this->getConfig('cacheKey'));
     }
 
-    public function check($identifier = null, $options = [])
+    public function check($identifier = null)
     {
-        $options += [
-            'ip' => true,
-            'cacheKey' => 'counter',
-            'maxAttempts' => 3
-        ];
-
-        $identifier = $this->_identifier($identifier, $options['ip']);
-        $counter = Cache::read($identifier, $options['cacheKey']);
+        $identifier = $this->_identifier($identifier, $this->getConfig('ip'));
+        $counter = Cache::read($identifier, $this->getConfig('cacheKey'));
 
         if (!$counter) {
             return true;
         }
 
-        return $counter < $options['maxAttempts'];
+        return $counter < $this->getConfig('maxAttempts');
     }
 
     private function _identifier($identifier = null, $ip = true)

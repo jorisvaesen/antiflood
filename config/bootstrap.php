@@ -10,6 +10,6 @@ use Cake\Core\Configure;
 
 Configure::write('Cache.antiflood', [
     'className' => 'Memcached',
-    'path' => CACHE,
-    'duration' => '+15 minutes'
+    'duration' => '+15 minutes',
+    'prefix' => 'JorisVaesen_Antiflood_',
 ]);
