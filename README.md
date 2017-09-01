@@ -12,7 +12,12 @@ public function initialize()
 {
     parent::initialize();
 
-    $this->loadComponent('JorisVaesen/Antiflood.Antiflood');
+    $this->loadComponent('JorisVaesen/Antiflood.Antiflood', [
+        'ip' => true,   // filter by IP
+        'cacheConfig' => 'antiflood', // cache config used to save attampts
+        'maxAttempts' => 3, // maximum attempts within cache config duration
+        'salt' => true, // salt identifier to be unique for an application (true = securiy salt, string = custom salt, false = not salted)
+    ]);
 }
 
 public function login()

@@ -18,7 +18,7 @@ class AntifloodComponent extends Component
      */
     protected $_defaultConfig = [
         'ip' => true,
-        'cacheKey' => 'antiflood',
+        'cacheConfig' => 'antiflood',
         'maxAttempts' => 3,
         'salt' => true,
     ];
@@ -27,17 +27,17 @@ class AntifloodComponent extends Component
     {
         $identifier = $this->_identifier($identifier);
 
-        if (!Cache::read($identifier, $this->getConfig('cacheKey'))) {
-            Cache::write($identifier, 0, $this->getConfig('cacheKey'));
+        if (!Cache::read($identifier, $this->getConfig('cacheConfig'))) {
+            Cache::write($identifier, 0, $this->getConfig('cacheConfig'));
         }
 
-        Cache::increment($identifier, 1, $this->getConfig('cacheKey'));
+        Cache::increment($identifier, 1, $this->getConfig('cacheConfig'));
     }
 
     public function check($identifier = null)
     {
         $identifier = $this->_identifier($identifier);
-        $counter = Cache::read($identifier, $this->getConfig('cacheKey'));
+        $counter = Cache::read($identifier, $this->getConfig('cacheConfig'));
 
         if (!$counter) {
             return true;
