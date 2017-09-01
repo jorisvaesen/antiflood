@@ -6,9 +6,9 @@
  * Time: 4:25 PM
  */
 
-use Cake\Core\Configure;
+use Cake\Cache\Cache;
 
-Configure::write('Cache.antiflood', [
+Cache::setConfig('antiflood', [
     'className' => 'Memcached',
     'duration' => '+15 minutes',
     'prefix' => 'JorisVaesen_Antiflood_',

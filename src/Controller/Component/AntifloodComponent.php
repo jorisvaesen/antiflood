@@ -25,7 +25,7 @@ class AntifloodComponent extends Component
     {
         $identifier = $this->_identifier($identifier, $this->getConfig('ip'));
 
-        if (!Cache::read($identifier, $options['cacheKey'])) {
+        if (!Cache::read($identifier, $this->getConfig('cacheKey'))) {
             Cache::write($identifier, 0, $this->getConfig('cacheKey'));
         }
 
