@@ -56,3 +56,7 @@ Migrations for saving a log when maxAttempts is reached
 ```
 bin/cake migrations migrate -p JorisVaesen/Antiflood
 ```
+
+## TODO
+- tests
+- documentation
