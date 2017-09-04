@@ -51,13 +51,14 @@ class AntifloodComponent extends Component
         $identifier = md5($identifier);
 
         if ($this->getConfig('ip')) {
-            $identifier .= '_' . md5($this->_registry->getController()->request->clientIp());
+            $identifier .= md5($this->_registry->getController()->request->clientIp());
         }
 
-        if ($this->getConfig('salt') === true) {
-            $identifier .= '_' . md5(Security::salt());
+        $salt = $this->getConfig('salt');
+        if ($salt === true) {
+            $identifier .= md5(Security::salt());
         } else if (is_string($salt)) {
-            $identifier .= '_' . md5($this->getConfig('salt'));
+            $identifier .= md5($salt);
         }
 
         return $identifier;
