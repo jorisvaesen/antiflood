@@ -17,6 +17,7 @@ public function initialize()
         'cacheConfig' => 'antiflood', // cache config used to save attampts
         'maxAttempts' => 3, // maximum attempts within cache config duration
         'salt' => true, // salt identifier to be unique for an application (true = securiy salt, string = custom salt, false = not salted)
+        'log' => false, // write ip and identifier to database when maxAttempts is reached, false to disable, true to enable, callback to use a custom function
     ]);
 }
 
@@ -49,4 +50,9 @@ public function login()
         }
     }
 }
+```
+
+Migrations for saving a log when maxAttempts is reached
+```
+bin/cake migrations migrate -p JorisVaesen/Antiflood
 ```
