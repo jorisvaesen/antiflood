@@ -16,13 +16,13 @@ use Search\Manager;
  * Antiflood Model
  *
  *
- * @method \JorisVaesen\Antiflood\Entity\Antiflood get($primaryKey, $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood newEntity($data = null, array $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood[] newEntities(array $data, array $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood patchEntities($entities, array $data, array $options = [])
- * @method \JorisVaesen\Antiflood\Entity\Antiflood findOrCreate($search, callable $callback = null, $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood get($primaryKey, $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood newEntity($data = null, array $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood[] newEntities(array $data, array $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood patchEntities($entities, array $data, array $options = [])
+ * @method \JorisVaesen\Antiflood\Model\Entity\Antiflood findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
