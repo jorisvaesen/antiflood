@@ -12,6 +12,7 @@
   ],
   "require": {
     "cakephp/orm": ">=3.4",
+    "cakephp/migrations": "~1.0",
     "php": ">=5.5"
   },
   "require-dev": {
