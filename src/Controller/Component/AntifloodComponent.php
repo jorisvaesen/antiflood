@@ -3,6 +3,7 @@ namespace JorisVaesen\Antiflood\Controller\Component;
 
 use Cake\Cache\Cache;
 use Cake\Controller\Component;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 
 /**
@@ -21,29 +22,40 @@ class AntifloodComponent extends Component
         'cacheConfig' => 'antiflood',
         'maxAttempts' => 3,
         'salt' => true,
+        'log' => false,
     ];
 
     public function increment($identifier = null)
     {
-        $identifier = $this->_identifier($identifier);
+        $hashedIdentifier = $this->_identifier($identifier);
 
-        if (!Cache::read($identifier, $this->getConfig('cacheConfig'))) {
-            Cache::write($identifier, 0, $this->getConfig('cacheConfig'));
+        if (!Cache::read($hashedIdentifier, $this->getConfig('cacheConfig'))) {
+            Cache::write($hashedIdentifier, 0, $this->getConfig('cacheConfig'));
         }
 
-        Cache::increment($identifier, 1, $this->getConfig('cacheConfig'));
+        Cache::increment($hashedIdentifier, 1, $this->getConfig('cacheConfig'));
     }
 
     public function check($identifier = null)
     {
-        $identifier = $this->_identifier($identifier);
-        $counter = Cache::read($identifier, $this->getConfig('cacheConfig'));
+        $hashedIdentifier = $this->_identifier($identifier);
+        $counter = Cache::read($hashedIdentifier, $this->getConfig('cacheConfig'));
 
         if (!$counter) {
             return true;
         }
 
-        return $counter < $this->getConfig('maxAttempts');
+        $result = $counter < $this->getConfig('maxAttempts');
+
+        if (!$result) {
+            $diff = $this->getConfig('maxAttempts') - $counter;
+            if ($diff === 0 && $this->getConfig('log') !== false) {
+                Cache::increment($hashedIdentifier, 1, $this->getConfig('cacheConfig'));
+                $this->_log($identifier);
+            }
+        }
+
+        return $result;
     }
 
     private function _identifier($identifier = null)
@@ -62,5 +74,19 @@ class AntifloodComponent extends Component
         }
 
         return $identifier;
+    }
+
+    private function _log($identifier = null)
+    {
+        if (is_callable($this->getConfig('log'))) {
+            return call_user_func($this->config('log'), $identifier, $this->_registry->getController()->request);
+        }
+
+        $table = TableRegistry::get('JorisVaesen/Antiflood.Antifloods');
+        $entity = $table->newEntity([
+            'ip' => $this->_registry->getController()->request->clientIp(),
+            'identifier' => $identifier,
+        ]);
+        $table->save($entity);
     }
 }
